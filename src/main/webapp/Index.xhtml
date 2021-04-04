@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>GestionTickets</title>
+</h:head>
+<h:body>
+
+
+	<h:form>
+		<p:toolbar>
+			<p:toolbarGroup>
+				<p:growl id="messages" showDetail="true" />
+				<p:menuButton value="Opciones">
+					<p:menuitem actionListener="#{bancoControl.limpiarBanco()}"
+						value="Tickets" styleClass="btn btn-success" />
+
+				</p:menuButton>
+
+
+			</p:toolbarGroup>
+			<p:toolbarGroup align="right">
+				<p:commandButton value="+ Nuevo Ticket"
+					actionListener="#{bancoControl.limpiarBanco()}"
+					oncomplete="PF('dialogoAgregar').show();" update=":formAgregar" />
+			</p:toolbarGroup>
+
+		</p:toolbar>
+		<p:separator />
+	</h:form>
+
+	<h:form id="formTickets">
+	
+	<p:dataTable id="tablaTickets"  var="tickets"
+			value="#{controladorTicket.enlistarTickets()}" >
+			
+
+			<p:column headerText="ID Ticket">
+				<h:outputText value="#{tickets.idTicket}" />
+			</p:column>
+			<p:column headerText="Titulo">
+				<h:outputText value="#{tickets.titulo}" />
+			</p:column>
+			<p:column headerText="Descripcion">
+				<h:outputText value="#{tickets.descripcion}" />
+			</p:column>
+			<p:column headerText="Estado">
+				<h:outputText value="#{tickets.estado}" />
+			</p:column>
+			<p:column headerText="Prioridad">
+				<h:outputText value="#{tickets.prioridad}" />
+			</p:column>
+			<p:column headerText="Fecha">
+				<h:outputText value="#{tickets.fechaCreacion}" />
+			</p:column>
+			<p:column headerText="Asignado">
+				<h:outputText value="#{tickets.nombreAsignado}" />
+			</p:column>	
+		</p:dataTable>
+
+	</h:form>
+
+
+	<h:form id="formAgregar">
+		<p:dialog id="dlgAgregar" header="Agregar Nuevo Ticket"
+			widgetVar="dialogoAgregar" resizable="false" showEffect="fade"
+			hideEffect="explode" modal="true">
+			<p:panelGrid columns="2" style="margin: 0 auto;">
+				<p:outputLabel value="Banco:" />
+				<p:inputText value="#{bancoControl.banco.nombre}" />
+				<p:outputLabel value="Banco:" />
+				<p:inputText value="#{bancoControl.banco.nombre}" />
+				<p:outputLabel value="Banco:" />
+				<p:inputText value="#{bancoControl.banco.nombre}" />
+				<p:outputLabel value="Banco:" />
+				<p:inputText value="#{bancoControl.banco.nombre}" />
+				<p:outputLabel value="Banco:" />
+				<p:inputText value="#{bancoControl.banco.nombre}" />
+			</p:panelGrid>
+			<div style="margin: 20px 0">
+				<p:commandButton value="Guardar" icon="pi pi-check"
+					actionListener="#{bancoControl.agregarBanco()}"
+					update=":formTickets:tablaTickets"
+					oncomplete="PF('dialogoAgregar').hide();" />
+				<p:commandButton value="Cancelar"
+					onclick="PF('dialogoAgregar').hide();" />
+				<p:button value="Primary" styleClass="rounded-button" />
+			</div>
+
+		</p:dialog>
+	</h:form>
+
+
+
+</h:body>
+</html>
+
