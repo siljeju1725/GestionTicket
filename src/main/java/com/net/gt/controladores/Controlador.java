@@ -4,8 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.DateFormatter;
+
+import java.util.Date; 
 
 import com.net.gt.modelos.Tickets;
 import java.sql.*;
@@ -51,11 +56,12 @@ public class Controlador implements ControladorTransacciones {
 						rs.getString(3),
 						rs.getString(4),
 						rs.getString(5),
+						
 						null,
-						null,//rs.getDate(6),
+						rs.getDate(6),
 						null,
 						null,
-						null//rs.getString(7)
+						rs.getString(7)
 						);
 			
 				listaTickets.add(tickets);
@@ -125,9 +131,12 @@ public class Controlador implements ControladorTransacciones {
 
 	@Override
 	public void insertar(Tickets p) {
-		String sentencia = "insert into db_tickets.tickets  (titulo, descripcion , estado,  prioridad, porcentajeAvance, fechaCreacion,"
-				+ " idUsuario, idAsignado, nombreAsignado)\r\n"
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+		    Date FechaActual = new Date();  
+
+		String sentencia = "insert into db_tickets.tickets  (titulo, descripcion , estado,  prioridad,"
+				+ " idUsuario)\r\n"
+				+ "values (?, ?, ?, ?, ?) ";
 		try {
 			PreparedStatement ps = null;
 			Connection conn = conexion.conectar();
@@ -136,11 +145,13 @@ public class Controlador implements ControladorTransacciones {
 			ps.setString(2, p.getDescripcion());
 			ps.setString(3, p.getEstado());
 			ps.setString(4, p.getPrioridad());
-			ps.setInt(5, p.getPorcentajeAvance());
-			ps.setDate(6, p.getFechaCreacion());
-			ps.setInt(7, p.getIdUsuario());
-			ps.setInt(8, p.getIdAsignado());
-			ps.setString(9, p.getNombreAsignado());
+			//ps.setInt(5, NULL);
+			//ps.setDate(6, p.getFechaCreacion());
+			ps.setInt(5, 11);
+		
+		//	ps.setDate(6, java.sql.Date.valueOf(formatter.format(FechaActual)));
+			//ps.setInt(8, p.getIdAsignado());
+			//ps.setString(9, p.getNombreAsignado());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -151,7 +162,7 @@ public class Controlador implements ControladorTransacciones {
 
 	@Override
 	public void actualizar(Tickets p) {
-		String sentencia = "insert into db_tickets.tickets  (titulo=?, descripcion=?, estado=?,  prioridad=?, porcentajeAvance=?, fechaCreacion=?, idUsuario=?, idAsignado=?, nombreAsignado=?) ";
+		String sentencia = "update  db_tickets.tickets set  titulo=?, descripcion=?, estado=?,  prioridad=?, porcentajeAvance=?,  nombreAsignado=? where idTicket=? ";
 		try {
 			PreparedStatement ps = null;
 			Connection conn = conexion.conectar();
@@ -160,11 +171,12 @@ public class Controlador implements ControladorTransacciones {
 			ps.setString(2, p.getDescripcion());
 			ps.setString(3, p.getEstado());
 			ps.setString(4, p.getPrioridad());
-			ps.setInt(5, p.getPorcentajeAvance());
-			ps.setDate(6, p.getFechaCreacion());
-			ps.setInt(7, p.getIdUsuario());
-			ps.setInt(8, p.getIdAsignado());
-			ps.setString(9, p.getNombreAsignado());
+			ps.setInt(5,100 );
+			//ps.setDate(6, p.getFechaCreacion());
+			//ps.setInt(7, p.getIdUsuario());
+			//ps.setInt(8, p.getIdAsignado());
+			ps.setString(6, p.getNombreAsignado());
+			ps.setInt(7, p.getIdTicket());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {

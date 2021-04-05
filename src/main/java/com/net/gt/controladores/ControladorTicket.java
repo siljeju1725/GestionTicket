@@ -31,17 +31,17 @@ public class ControladorTicket {
 
 	public Tickets obtenerTicket(int idTicket) {
 		this.tickets = crud.obtenerTicket(idTicket);
-		return null;
+		return this.tickets;
 	}
 
-	public String insertar(Tickets tickets) {
+	public String insertar() {
 		crud.insertar(tickets);
 		tickets = new Tickets();
 		enlistarTickets();
 		return null;
 	}
 
-	public String actualizar(Tickets tickets) {
+	public String actualizar() {
 		crud.actualizar(tickets);
 		tickets = new Tickets();
 		enlistarTickets();

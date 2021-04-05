@@ -24,7 +24,7 @@
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:commandButton value="+ Nuevo Ticket"
-					actionListener="#{bancoControl.limpiarBanco()}"
+					
 					oncomplete="PF('dialogoAgregar').show();" update=":formAgregar" />
 			</p:toolbarGroup>
 
@@ -59,6 +59,14 @@
 			<p:column headerText="Asignado">
 				<h:outputText value="#{tickets.nombreAsignado}" />
 			</p:column>	
+			 <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                                    <f:setPropertyActionListener target="#{controladorTicket.tickets}" value="#{tickets}"/>
+                                </p:commandButton>
+                            </p:column>
+              
+              
+                          
 		</p:dataTable>
 
 	</h:form>
@@ -69,20 +77,33 @@
 			widgetVar="dialogoAgregar" resizable="false" showEffect="fade"
 			hideEffect="explode" modal="true">
 			<p:panelGrid columns="2" style="margin: 0 auto;">
-				<p:outputLabel value="Banco:" />
-				<p:inputText value="#{bancoControl.banco.nombre}" />
-				<p:outputLabel value="Banco:" />
-				<p:inputText value="#{bancoControl.banco.nombre}" />
-				<p:outputLabel value="Banco:" />
-				<p:inputText value="#{bancoControl.banco.nombre}" />
-				<p:outputLabel value="Banco:" />
-				<p:inputText value="#{bancoControl.banco.nombre}" />
-				<p:outputLabel value="Banco:" />
-				<p:inputText value="#{bancoControl.banco.nombre}" />
+				
+				
+				<p:outputLabel value="Titulo:" />
+				<p:inputText value="#{controladorTicket.tickets.titulo}" id="titulo" />
+				<p:outputLabel value="Descripcion:" />
+				<p:inputTextarea value="#{controladorTicket.tickets.descripcion}" id="descripcion" />
+				<p:outputLabel value="Prioridad:" />
+				<p:selectOneMenu value="#{controladorTicket.tickets.prioridad}" id="prioridad">
+                    <f:selectItem itemLabel="ALTA" itemValue="ALTA"/>
+                    <f:selectItem itemLabel="MEDIA" itemValue="MEDIA"/>
+                    <f:selectItem itemLabel="BAJA" itemValue="BAJA"/>
+                    
+                </p:selectOneMenu>
+			
+				<p:outputLabel value="Estado:" />
+				<p:selectOneMenu value="#{controladorTicket.tickets.estado}" id="estado">
+                    <f:selectItem itemLabel="ABIERTO" itemValue="ABIERTO"/>
+                    <f:selectItem itemLabel="CERRADO" itemValue="CERRADO"/>
+                    <f:selectItem itemLabel="PROCESO" itemValue="PROCESO"/>
+                    <f:selectItem itemLabel="ELIMINADO" itemValue="ELIMINADO"/>
+                    
+                </p:selectOneMenu>
+                
 			</p:panelGrid>
 			<div style="margin: 20px 0">
 				<p:commandButton value="Guardar" icon="pi pi-check"
-					actionListener="#{bancoControl.agregarBanco()}"
+					actionListener="#{controladorTicket.insertar()}"
 					update=":formTickets:tablaTickets"
 					oncomplete="PF('dialogoAgregar').hide();" />
 				<p:commandButton value="Cancelar"
@@ -91,7 +112,47 @@
 			</div>
 
 		</p:dialog>
+		
+		 
+		
 	</h:form>
+	
+	<h:form id="formModificar">
+                        <p:dialog id="dlgModificar" header="Modificar Banco" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                 <p:outputLabel value="IdTicket:" />
+                 <p:inputNumber value="#{controladorTicket.tickets.idTicket}" id="idTicket" disable="true"/>
+				<p:outputLabel value="Descripcion:" />
+				<p:inputText value="#{controladorTicket.tickets.titulo}" id="titulo" />
+				<p:outputLabel value="Descripcion:" />
+				<p:inputTextarea  value="#{controladorTicket.tickets.descripcion}" id="descripcion" />
+				<p:outputLabel value="Prioridad:" />
+				<p:selectOneMenu value="#{controladorTicket.tickets.prioridad}" id="prioridad">
+                    <f:selectItem itemLabel="ALTA" itemValue="ALTA"/>
+                    <f:selectItem itemLabel="MEDIA" itemValue="MEDIA"/>
+                    <f:selectItem itemLabel="BAJA" itemValue="BAJA"/>
+                    
+                </p:selectOneMenu>
+			
+				<p:outputLabel value="Estado:" />
+				<p:selectOneMenu value="#{controladorTicket.tickets.estado}" id="estado">
+                    <f:selectItem itemLabel="ABIERTO" itemValue="ABIERTO"/>
+                    <f:selectItem itemLabel="CERRADO" itemValue="CERRADO"/>
+                    <f:selectItem itemLabel="PROCESO" itemValue="PROCESO"/>
+                    <f:selectItem itemLabel="ELIMINADO" itemValue="ELIMINADO"/>
+                    
+                </p:selectOneMenu>
+                <p:outputLabel value="Fecha:" />
+                <p:inputText value="#{controladorTicket.tickets.fechaCreacion}" id="fechaCreacion" readonly="true"/>
+				<p:outputLabel value="Asignado" />
+				<p:inputText value="#{controladorTicket.tickets.nombreAsignado}" id="asignado" />
+		     
+                 </p:panelGrid>
+                            
+                     <p:commandButton  value="Guardar" actionListener="#{controladorTicket.actualizar()}" update=":formTickets:tablaTickets" oncomplete="PF('dialogoModificar').hide();"/>
+                       <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                   </p:dialog>
+         </h:form>
 
 
 
